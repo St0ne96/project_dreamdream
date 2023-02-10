@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
+    <title>DreamDream | 관리자 페이지</title>
+    <style>
+        * {
+            font-family: 'KOTRAHOPE';
+        }
+        .mytitle {
+            color: black;
+            width: 300px;
+            height: 200px;
+            background-image: url('https://image.utoimage.com/preview/cp921217/2022/08/202208019610_500.jpg');
+            background-position: center;
+            background-size: cover;
+            
+            border-radius: 10px;
+            text-align: center;
+            padding-top: 40px;
+
+           
+        }
+        @font-face {
+            font-family: 'KOTRAHOPE';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .login{
+            background-color: skyblue;
+
+            border: none;
+
+            color: white;
+
+            padding: 15px 30px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+            font-size: 16px;
+
+            margin: 4px 2px;
+
+            margin-right: 10px;
+
+            cursor: pointer;
+
+            width: 295px;
+
+            border-radius: 5px;
+
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        .register{
+            background-color: #FFBA00;
+
+            border: none;
+
+            color: white;
+
+            padding: 15px 30px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+            font-size: 16px;
+
+            margin: 4px 2px;
+
+            width: 295px;
+
+            cursor: pointer;
+
+            border-radius: 5px;
+
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1 style=" font-family: 'KOTRAHOPE';">Dream Dream</h1>
+        <h5>관리자 전용</h5>
+        <h5>아이디, 비밀번호를 입력해주세요</h5>
+    </div>
+    <form id="form" action="">
+        <div>
+            <p>
+                ID: <input id="nickname" type="text" name="nickname" style="font-family: 'Noto Sans KR', sans-serif;"/>
+            </p>
+            <p>
+                PW: <input id="password" type="password" name="password" style="font-family: 'Noto Sans KR', sans-serif;"/>
+            </p>
+        </div>
+        <button class="login" type="submit">로그인</button>
+        <button class="register" type="button">드림드림이 처음이신가요?</button>
+    </form>
+  
+
+    <script>
+
+        (async() => {
+            // const userInfo = await getUserInfo(); 
+            // console.log({userInfo});
+            // const isLogin = !!userInfo;
+            // console.log({isLogin});
+
+            // createHeaderButton(isLogin);
+
+            const form = document.querySelector("form");
+            
+            form.addEventListener("submit",async(e)=>{
+                try{
+                    e.preventDefault();
+
+                    const nickname = document.getElementById("nickname").value;
+                    const password = document.getElementById("password").value;
+                    const formData = new FormData();
+
+                    formData.append("nickname", nickname);
+                    formData.append("password",password);
+
+                    const res = await axios.post("http://localhost:3000/api/users/managerauth", formData,{
+                        headers: {
+                            "Content-Type":"application/json",
+                        },
+                    })
+                    .then(function (response){
+                        if(response?.status === 200){
+                            opener.location.href = "/api/management";
+                            window.close();
+
+                        }
+                    })
+                    .catch(function(error){
+                        if(error?.response?.data?.message){
+                            alert(error.response.data.message);
+                        }
+                        console.log(error.message);
+                    });
+                } catch(error){
+                    console.error(error.message);
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

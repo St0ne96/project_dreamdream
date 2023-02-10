@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTS-8" />
+    <title>Home</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../public/index.css" />
+  </head>
+  <body>
+    <%- include('headergoodsdetail.html') %>
+
+    <div>상품 이미지</div>
+    <div>상품 이름</div>
+    <div>상품 가격</div>
+
+    <div class="num">
+      <span>수량</span>
+      <span class="count">
+        <a href="#" class="minus" style="text-decoration: none; color: black"
+          >-</a
+        >
+        <span id="result">0</span>
+        <a href="#" class="plus" style="text-decoration: none; color: black"
+          >+</a
+        >
+      </span>
+    </div>
+
+    <button>구매하기</button>
+    <button>장바구니</button>
+
+    <div>
+      <h2>상세 설명</h2>
+      <p>설명</p>
+    </div>
+
+    <div>
+      <h2>리뷰조회</h2>
+      <button type="onclick" onclick="location.href='post'">리뷰작성</button>
+
+      <table style="border: 1px solid black; width: 100%" id="reviews-table">
+          <tr>
+              <th style="border: 1px solid black">
+                작성자              
+              </th>
+              <th style="border: 1px solid black">
+                내용              
+              </th>
+              <th style="border: 1px solid black">
+                별점
+              </th>
+              <th style="border: 1px solid black">
+                작성일자
+              </th>  
+          </tr>
+      </table>
+  
+      <table id="pagination"></table>
+
+      </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      let plus = document.querySelector(".plus");
+      let minus = document.querySelector(".minus");
+      let result = document.querySelector("#result");
+      let totalcost = document.querySelector(".totalcost");
+      let i = 0;
+      const add = plus.addEventListener("click", () => {
+        i++;
+        result.textContent = i;
+      });
+
+      const min = minus.addEventListener("click", () => {
+        if (i > 0) {
+          i--;
+          result.textContent = i;
+        }
+      });
+    </script>
+    
+
+    <script>
+
+      const id = window.location.pathname.split('/')[2]
+
+      fetch(`http://localhost:5000/reviews/${id}`,
+        { credentials: "include" }).then((response) => response.json())
+        .then(reviews => {
+
+          for (let i = 0; i < reviews.length; i++) {
+
+              const row = `
+                <th style="border: 1px solid black">${reviews[i].customer_id}</th>
+                <th style="border: 1px solid black">${reviews[i].content}</th>
+                <th style="border: 1px solid black">${reviews[i].star}</th>
+                <th style="border: 1px solid black">${reviews[i].createAt}</th>`
+
+              const tr = document.createElement("tr")
+              tr.innerHTML = row
+              document.getElementById("reviews-table").appendChild(tr)
+          }
+
+        })
+
+    </script>
+
+    <script>
+      // fetch(`http://localhost:5000/review/${id}`,
+      //   { credentials: "include" }).then((response) => response.json())
+      //   .then(review => {
+      //       const row = `
+      //           <th style="border: 1px solid black">${review.reviews[i].customer_id}</th>
+      //           <th style="border: 1px solid black">${review.reviews[i].content}</th>
+      //           <th style="border: 1px solid black">${review.reviews[i].createAt}</th>`
+
+      //           for (let i = 0; i < review.reviews.length; i++) {
+
+                
+      //               const row = `
+      //               <td style="border: 1px solid black">${pageInfo.articles[i].title}</a></td>
+      //               <td style="border: 1px solid black">${pageInfo.articles[i].contents}</td>
+      //               <td style="border: 1px solid black">${pageInfo.articles[i].created_at}</td>
+      //               <td style="border: 1px solid black">${pageInfo.articles[i].count}</td>`
+
+      //               const tr = document.createElement("tr")
+      //               tr.innerHTML = row
+      //               document.getElementById("article-table").appendChild(tr)
+      //           }
+
+                
+
+      //       const tr = document.createElement("tr")
+      //       tr.innerHTML = row
+      //       document.getElementById("reviews-table").appendChild(tr)
+
+            // for (let i = 0; i < userInfo.articles.length; i++) {
+            //     const a = `
+            //         <td style="border: 1px solid black;">${userInfo.articles[i].title}</td>`
+
+
+            //     const c = document.createElement("tr")
+            //     c.innerHTML = a
+            //     document.getElementById("user-table").appendChild(c)
+            // }
+        // })
+    </script>
+
+    
+
+    <!-- <script>
+      function request() {
+  fetch(`http://localhost:5000/review/${id}`, {
+    method: 'GET',
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  });
+}
+request(); -->
+    </script>
+
+    <!-- <script>
+
+        let query = window.location.search;
+        let param = new URLSearchParams(query);
+        let page = Number(param.get('page'));
+
+        if (!page || page === 1) { 
+
+    -->
+
+
+          <!-- <script>
+            fetch("http://localhost:5000/review/:goods_id").then((response) => response.json()).then(pageInfo => {
+        
+                for (let i = 0; i < pageInfo.reviews.length; i++) {
+
+                  
+                    const row = `
+                <td style="border: 1px solid black">${pageInfo.reviews[i].customer_id}</td>
+                <td style="border: 1px solid black">${pageInfo.reviews[i].content}</td>
+                <td style="border: 1px solid black">${pageInfo.reviews[i].created_at}</td>
+                `
+
+                    const tr = document.createElement("tr")
+                    tr.innerHTML = row
+                    document.getElementById("reviews-table").appendChild(tr)
+                }
+            })
+          </script> -->
+
+    <!-- //             //상품 이름 , 이미지, 설명 등등 도 불러오기
+
+
+    //             for (let i = 0; i < pageInfo.reviews.length; i++) {
+
+                    
+    //                 const row = `
+    //             <td style="border: 1px solid black">${pageInfo.reviews[i].customer_id}</td>
+    //             <td style="border: 1px solid black">${pageInfo.reviews[i].content}</td>
+    //             <td style="border: 1px solid black">${pageInfo.reviews[i].created_at}</td>
+    //             `
+
+    //                 const tr = document.createElement("tr")
+    //                 tr.innerHTML = row
+    //                 document.getElementById("reviews-table").appendChild(tr)
+    //             }
+
+
+
+
+    //             ////////////////////////밑에는 수정 전
+
+    //             const pages = `
+    //             <a class="link_page" href="?page=1">${pageInfo.aboutpage.currentPage}</a>
+    //             <a class="link_page" href="?page=2">2</a>
+    //             <a class="link_page" href="?page=3">3</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">${pageInfo.aboutpage.lastPage}</a>
+    //             `
+
+    //             const a = document.createElement("a")
+    //             a.innerHTML = pages
+    //             document.getElementById("pagination").appendChild(a)
+
+    //         })
+
+    //     } else {
+    //         fetch(`http://localhost:7001/list?page=${page}`).then((response) => response.json()).then(pageInfo => {
+    //             for (let i = 0; i < pageInfo.articles.length; i++) {
+
+    //                 const row = `
+    //             <td style="border: 1px solid black"><a href="/detail/${pageInfo.articles[i].id}">${pageInfo.articles[i].title}</a></td>
+    //             <td style="border: 1px solid black">${pageInfo.articles[i].contents}</td>
+    //             <td style="border: 1px solid black">${pageInfo.articles[i].created_at}</td>
+    //             <td style="border: 1px solid black">${pageInfo.articles[i].count}</td>`
+
+    //                 const tr = document.createElement("tr")
+    //                 tr.innerHTML = row
+    //                 document.getElementById("article-table").appendChild(tr)
+    //             }
+
+
+    //             if (page === 3) { //1페이지랑 마지막 페이지는 무조건 보여줘야되고 현재 페이지의 앞뒤 페이지만 보여줘야됨
+                    
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <a class="link_page" href="?page=2">2</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             <a class="link_page" href="?page=4">4</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">${pageInfo.aboutpage.lastPage}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 document.getElementById("pagination").appendChild(a)
+
+    //             } else if (page === pageInfo.aboutpage.lastPage) {
+
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${page - 1}">${page - 1}</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 return document.getElementById("pagination").appendChild(a)
+
+    //             } else if (page === pageInfo.aboutpage.lastPage - 1) {
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${page - 1}">${page - 1}</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">$pageInfo.aboutpage.lastPage}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 return document.getElementById("pagination").appendChild(a)
+    //             } else if (page === pageInfo.aboutpage.lastPage - 2) {
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${page - 1}">${page - 1}</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             <a class="link_page" href="?page=${page + 1}">${page + 1}</a>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">${pageInfo.aboutpage.lastPage}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 return document.getElementById("pagination").appendChild(a)
+
+    //             } else if (page < 3) { //1은 위에서 이미 처리  2
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             <a class="link_page" href="?page=3">3</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">${pageInfo.aboutpage.lastPage}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 return document.getElementById("pagination").appendChild(a)
+
+    //             } else if (page > 3) {
+    //                 const pages = `
+    //             <a class="link_page" href="?page=1">1</a>
+    //             <a class="link_page" href="?page=${page-2}">...</a>
+    //             <a class="link_page" href="?page=${page-1}">${page-1}</a>
+    //             <a class="link_page" href="?page=${page}">${page}</a>
+    //             <a class="link_page" href="?page=${page + 1}">${page + 1}</a>
+    //             <span>...</span>
+    //             <a class="link_page" href="?page=${pageInfo.aboutpage.lastPage}">${pageInfo.aboutpage.lastPage}</a>
+    //             `
+    //                 const a = document.createElement("a")
+    //                 a.innerHTML = pages
+    //                 return document.getElementById("pagination").appendChild(a)
+    //             }
+
+                
+    //         })
+    //     }
+
+
+    // </script> -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
