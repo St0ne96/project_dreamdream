@@ -7,6 +7,7 @@ const loginController = new LoginController();
 const ManagerController = require("../controllers/manager.controller.js");
 const managerController = new ManagerController();
 
+
 // 임시 테스트 유저 등록 및 찾기 
 router.post("/test", loginController.createUser)
 router.get("/find", loginController.getUsers)

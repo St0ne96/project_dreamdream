@@ -19,6 +19,7 @@ async function auth_middleware(req, res, next) {
       const { id: id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
   
       const user = await Customer.findByPk(id);
+      
       if (user) {
         // 4. 인증이 성공 할시 res.locals.user = user 정보를 담아서 보내자
         res.locals.user = user;

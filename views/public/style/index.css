@@ -187,3 +187,40 @@
   font-size: 12px;
   cursor: pointer;
 }
+
+.click3{
+  flex:1px;
+  width: 60px;
+  height: 30px;
+  background: #2F7AF4;
+  color: #fff;
+  font-size: 12px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+
+/* 상품페이지 css */
+.goods_form {
+  border: none;
+  width: 300px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 20px;
+  border-radius: 5px;
+}
+
+.input_goods{
+  width: 300px;
+  height: 32px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
+}
+
+.input_file{
+  width: 220px;
+}

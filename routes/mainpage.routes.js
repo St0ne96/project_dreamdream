@@ -24,19 +24,12 @@ router.get("/login",(req,res)=>{
     if(res.locals.user ){  
         return res.redirect("/users")
      }
-     if(res.locals.user){
-        return res.redirect('/manager')
-     }
-    
      res.render("login.ejs", { user: res.locals.user})
 });
 //관리자 로그인 팝업창 
 router.get("/managerlogin",(req,res)=>{
-     if(res.locals.user ){  
-        return res.redirect("/users")
-     }
      if(res.locals.user ){
-        return res.redirect('/manager')
+        return res.redirect('/management')
      }
     
      res.render("managementlogin.ejs", {user: res.locals.user})
@@ -46,17 +39,27 @@ router.get("/managerlogin",(req,res)=>{
 // 로그인 -> 유저 페이지 접속 
 router.get("/users",auth_middleware, (req,res)=>{
     if(!res.locals.user){
-        return res.render('index.ejs',{user: res.locals.user});
+        return res.render('index.ejs');
     }
-    res.render('userpage.ejs',{user: res.locals.user});
+    res.render('userpage.ejs');
 })
 
 // 로그인 -> 관리자 페이지 접속 
 router.get("/management", manager_middleware, (req,res)=>{
     if(!res.locals.user){
-        return res.render('index.ejs',{user: res.locals.user});
+        return res.render('index.ejs');
     }
-    res.render('management.ejs')
+    res.render('managementpage.ejs')
+})
+
+
+// 관리자 페이지 
+// 상품관리페이지 
+router.get("/management/goodspage",manager_middleware,(req,res)=>{
+   if(!res.locals.user){
+      return res.render('index.ejs')
+   }
+   res.render('managementgoodspage.ejs')
 })
 
 router.get("/management/customer/${id}", manager_middleware, (req,res)=>{

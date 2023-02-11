@@ -67,8 +67,7 @@ class ManagerService {
     explain,
     image,
     quantity,
-    price,
-    goodsId
+    price
   ) => {
     const goodsEnrollData = await this.managerRepository.goodsEnroll(
       seller,
@@ -76,8 +75,7 @@ class ManagerService {
       explain,
       image,
       quantity,
-      price,
-      goodsId
+      price
     );
   };
 

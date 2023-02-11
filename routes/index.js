@@ -10,7 +10,7 @@ const reviewsRouter = require('./review.routes');
 
 
 router.use('/users', [loginRouter,customerRouter])
-router.use('/management', [managerRouter])
+router.use('/management', [managerRouter,goodsRouter])
 router.use('/cart', [cartRouter])
 router.use('/goods', [goodsRouter])
 router.use('/reviews', [reviewsRouter])

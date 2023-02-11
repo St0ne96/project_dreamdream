@@ -1,0 +1,93 @@
+<div class="main_text0" id="link_main_text0">
+    <h1>관리자</h1>
+    <div class="contents1"> 드림드림을 관리해볼까 </div>
+
+    <ul class="icons">
+        <li>
+            <div class="goods_form">
+                <!-- 공식문서에 따르면 enctype="multipart/form-data" 을 form 태그에 꼭 넣어야함-->
+                <form id="form" action="" enctype="multipart/form-data">
+                    <p>
+                        <input id="seller" class="input_goods" type="text" name="seller" placeholder="판매자명" />
+                    </p>
+                    <p>
+                        <input id="goodsname"  class="input_goods" type="text" name="goodsname" placeholder="상품명" />
+                    </p>
+                    <p>
+                        <input id="explain" class="input_goods" type="text" name="explain" placeholder="상품설명" />
+                    </p>
+                    <p>
+                        <input id="price" class="input_goods" type="number" name="price" placeholder="가격" />
+                    </p>
+                    <input id="image" class="input_file" type="file" name="image" />
+                    <button class="click3" type="submit">상품등록</button>
+                </form>
+            </div>
+        </li>
+        <li>
+            <div class="icon_img">
+                <!-- 아이콘 이미지크기 width:136.11 height:127.66 -->
+                <img src="../public/images/회원관리.png">
+            </div>
+            <div class="contents1_bold"> 회원관리 </div>
+            <div class="contents3"> 회원을 관리해볼까요 </div>
+            <div> 회원검색(id): <input id="customerId" /><button onclick="customerFind()"> </div>
+            <button class="click"> 클릭하기 </button>
+        </li>
+        <li>
+            <div class="icon_img">
+                <!-- 아이콘 이미지크기 width:136.11 height:127.66 -->
+                <img src="../public/images/주문관리.png">
+            </div>
+            <div class="contents1_bold"> 주문관리 </div>
+            <div class="contents3"> 주문들을 관리해볼까요</div>
+            <div class="click" onclick="location.href='/management/gooods'"> 클릭하기 </div>
+        </li>
+    </ul>
+</div>
+<script>
+    (async () => {
+        const form = document.querySelector("form");
+        form.addEventListener("submit", async (e) => {
+            try {
+                // event.preventDefault()를 사용해서 sumit 후 새로고침(기본) 되는 것을 막고
+                // 서버로 value값을 전달해준다. 
+                e.preventDefault();
+
+                const seller = document.getElementById("seller").value;
+                const goodsname = document.getElementById("goodsname").value;
+                const explain = document.getElementById("explain").value;
+                const price = document.getElementById("price").value;
+                const image = document.getElementById("image").files[0];
+                const formData = new FormData();
+
+                formData.append("seller", seller);
+                formData.append("goodsname", goodsname);
+                formData.append("explain", explain);
+                formData.append("price", price);
+                formData.append("image", image);
+
+                const res = await axios.post("http://localhost:3000/api/management/goods/new",
+                        formData, {
+                            heaers: {
+                                "Content-Type": "application/json",
+                            },
+                        })
+                    .then(function (response) {
+                        if (response?.status === 201) {
+                            window.location.href = "/management/goodspage";
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error?.response?.data?.message) {
+                            alert(error.response.data.message);
+                        }
+                        console.log(error.message);
+                    });
+            } catch (error) {
+                console.error(error.message);
+            }
+        });
+    })();
+</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
